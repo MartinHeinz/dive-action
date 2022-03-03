@@ -6,3 +6,13 @@ Install and build:
 npm install
 npm run build
 ```
+
+Package and release:
+
+```bash
+npm run build
+ncc build --source-map
+git commit -m "..."
+git tag -a -m "..." vX.Y.Z
+git push --follow-tags
+```

@@ -67,7 +67,7 @@ function run() {
             const cmdOptions = [];
             if (config) {
                 runOptions.push('-v', `${config}:/.dive-ci`);
-                cmdOptions.push('--config-file', '/.dive-ci');
+                cmdOptions.push('--ci-config', '/.dive-ci');
             }
             yield exec.exec('docker', ['pull', dive]);
             const parameters = ['run', ...runOptions, dive, image, ...cmdOptions];
