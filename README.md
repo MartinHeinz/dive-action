@@ -1,5 +1,8 @@
 # Dive GitHub Action
 
+[![Release][release-badge]][release]
+[![GitHub Marketplace][marketplace-badge]][marketplace]
+
 Analyze container image efficiency using [Dive](https://github.com/wagoodman/dive).
 
 ## Usage
@@ -60,3 +63,8 @@ git commit -m "..."
 git tag -a -m "..." vX.Y.Z
 git push --follow-tags
 ```
+
+[release]: https://github.com/MartinHeinz/dive-action/releases/latest
+[release-badge]: https://img.shields.io/github/release/MartinHeinz/dive-action.svg?logo=github&color=green
+[marketplace]: https://github.com/marketplace/actions/dive-container-image-analysis
+[marketplace-badge]: https://img.shields.io/badge/marketplace-dive--container--image--analysis-green?logo=github
