@@ -2,17 +2,45 @@ import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import fs from 'fs'
 
+interface Result {
+    efficiency: number;
+    wastedBytes: number;
+    userWastedPercent: number;
+}
+
+function extract(output: string): Result {
+    let efficiency = 0;
+    let wastedBytes = 0;
+    let userWastedPercent = 0;
+    for (const line of output.split('\n')) {
+        if (line.includes('efficiency:')) {
+            efficiency = +line.match(/[+-]?\d+(\.\d+)?/)![0]
+        }
+        else if (line.includes('wastedBytes:')) {
+            wastedBytes = +line.match(/[+-]?\d+(\.\d+)?/)![0]
+        }
+        else if (line.includes('userWastedPercent:')) {
+            userWastedPercent = +line.match(/[+-]?\d+(\.\d+)?/)![0]
+        }
+    }
+    return {
+        efficiency: efficiency,
+        wastedBytes: wastedBytes,
+        userWastedPercent: userWastedPercent,
+    }
+}
+
 async function run(): Promise<void> {
     try {
-        const image = core.getInput('image')
-        const config = core.getInput('config')
+        const image = core.getInput('image');
+        const config = core.getInput('config');
 
         if (config && !fs.existsSync(config)) {
-            core.setFailed(`Dive configuration file ${config} doesn't exist!`)
+            core.setFailed(`Dive configuration file ${config} doesn't exist!`);
             return
         }
 
-        const dive = 'wagoodman/dive:v0.9.2'
+        const dive = 'wagoodman/dive:v0.9.2';
 
         const runOptions = [
           '-e',
@@ -22,22 +50,39 @@ async function run(): Promise<void> {
           '--rm',
           '-v',
           '/var/run/docker.sock:/var/run/docker.sock'
-        ]
+        ];
 
-        const cmdOptions = []
+        const cmdOptions = [];
 
         if (config) {
-          runOptions.push('-v', `${config}:/.dive-ci`)
+          runOptions.push('-v', `${config}:/.dive-ci`);
           cmdOptions.push('--ci-config', '/.dive-ci')
         }
 
-        await exec.exec('docker', ['pull', dive])
+        await exec.exec('docker', ['pull', dive]);
 
-        const parameters = ['run', ...runOptions, dive, image, ...cmdOptions]
+        const parameters = ['run', ...runOptions, dive, image, ...cmdOptions];
 
-        // TODO Process output - https://github.com/yuichielectric/dive-action/blob/c4fc3636a0bc38cdc9a8ddcd2665affa59a6e732/src/main.ts#L80
+        let output = '';
+        const execOptions = {
+            ignoreReturnCode: true,
+            listeners: {
+                stdout: (data: Buffer) => {
+                    output += data.toString()
+                },
+                stderr: (data: Buffer) => {
+                    output += data.toString()
+                }
+            }
+        };
 
-        const exitCode = await exec.exec('docker', parameters)
+        const exitCode = await exec.exec('docker', parameters, execOptions);
+
+        let results = extract(output);
+        core.setOutput('efficiency', results.efficiency);
+        core.setOutput('wasted-bytes', results.wastedBytes);
+        core.setOutput('user-wasted-percent', results.userWastedPercent);
+
         if (exitCode === 0) {
           // success
           return
@@ -48,4 +93,4 @@ async function run(): Promise<void> {
     }
 }
 
-run()
+run();
