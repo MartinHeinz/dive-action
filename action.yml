@@ -1,8 +1,10 @@
-# https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
 # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions
 name: 'Dive'
 description: "Run Dive to analyze the container image efficiency"
-
+author: "@martinheinz"
+branding:
+  icon: "check-circle"
+  color: "green"
 inputs:
   image:
     description: "Image to analyze"
@@ -17,7 +19,7 @@ outputs:
   wasted-bytes:
     description: 'Number of wasted bytes'
   user-wasted-percent:
-    description: ''
+    description: 'Percentage of space waster'
 runs:
   using: 'node16'
   main: 'dist/index.js'
