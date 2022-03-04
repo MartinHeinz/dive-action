@@ -1,5 +1,5 @@
 # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions
-name: 'Dive'
+name: 'Dive - Container Image Analysis'
 description: "Run Dive to analyze the container image efficiency"
 author: "@martinheinz"
 branding:
