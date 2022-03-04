@@ -11,13 +11,13 @@ Analyze container image efficiency using [Dive](https://github.com/wagoodman/div
 | image   | String | true     |                                     | Container image to analyze                                                   |
 | config  | String | false    | `${{ github.workspace }}/.dive-ci`  | Path to [dive config file](https://github.com/wagoodman/dive#ci-integration) |
 
-### Output
+### Outputs
 
-| Name                | Type    | Description                 |
-| ------------------- | ------- | --------------------------- |
-| efficiency          | String  | Efficiency of the image     |
-| wasted-bytes        | String  | Number of wasted bytes      |
-| user-wasted-percent | String  | Percentage of space waster  |
+| Name                | Description                 |
+| ------------------- | --------------------------- |
+| efficiency          | Efficiency of the image     |
+| wasted-bytes        | Number of wasted bytes      |
+| user-wasted-percent | Percentage of space waster  |
 
 ### Example
 
