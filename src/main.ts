@@ -56,8 +56,8 @@ async function run(): Promise<void> {
         const cmdOptions = [];
 
         if (config) {
-          runOptions.push('-v', `${process.cwd()}/${config}:/.dive-ci`);
-          cmdOptions.push('--ci-config', '/.dive-ci')
+            runOptions.push('-v', `${config}:/.dive-ci`);
+            cmdOptions.push('--ci-config', '/.dive-ci')
         }
 
         await exec.exec('docker', ['pull', dive]);

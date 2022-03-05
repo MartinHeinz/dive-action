@@ -72,6 +72,9 @@ function run() {
             const image = core.getInput('image');
             const config = core.getInput('config');
             const exitZero = core.getInput('exit-zero');
+            // const image = "node:alpine";  // TODO Revert
+            // const config = ".dive-ci";  // TODO Revert
+            // const exitZero = "true";  // TODO Revert
             if (config && !fs_1.default.existsSync(config)) {
                 core.setFailed(`Dive configuration file ${config} doesn't exist!`);
                 return;
@@ -88,7 +91,7 @@ function run() {
             ];
             const cmdOptions = [];
             if (config) {
-                runOptions.push('-v', `${process.cwd()}/${config}:/.dive-ci`);
+                runOptions.push('-v', `${config}:/.dive-ci`);
                 cmdOptions.push('--ci-config', '/.dive-ci');
             }
             yield exec.exec('docker', ['pull', dive]);
