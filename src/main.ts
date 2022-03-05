@@ -34,6 +34,7 @@ async function run(): Promise<void> {
     try {
         const image = core.getInput('image');
         const config = core.getInput('config');
+        const exitZero = core.getInput('exit-zero');
 
         if (config && !fs.existsSync(config)) {
             core.setFailed(`Dive configuration file ${config} doesn't exist!`);
@@ -55,7 +56,7 @@ async function run(): Promise<void> {
         const cmdOptions = [];
 
         if (config) {
-          runOptions.push('-v', `${config}:/.dive-ci`);
+          runOptions.push('-v', `${process.cwd()}/${config}:/.dive-ci`);
           cmdOptions.push('--ci-config', '/.dive-ci')
         }
 
@@ -84,9 +85,15 @@ async function run(): Promise<void> {
         core.setOutput('user-wasted-percent', results.userWastedPercent);
 
         if (exitCode === 0) {
-          // success
-          return
+            // success
+            return
         }
+        if (exitZero === 'true') {
+            // forced exit 0
+            console.log(`Scan failed (exit code: ${exitCode}), but forcing exit with 0.`);
+            return
+        }
+
         core.setFailed(`Scan failed (exit code: ${exitCode})`)
     } catch (error) {
         core.setFailed(`${error}`);

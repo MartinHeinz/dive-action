@@ -5,7 +5,8 @@
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
-    "package": "ncc build --source-map"
+    "package": "ncc build --source-map",
+    "run": "npm run build && ncc build --source-map && node dist/index.js"
   },
   "keywords": [],
   "author": "",

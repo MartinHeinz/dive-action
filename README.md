@@ -9,10 +9,11 @@ Analyze container image efficiency using [Dive](https://github.com/wagoodman/div
 
 ### Inputs
 
-| Name    | Type   | Required | Default                             | Description                                                                  |
-| ------- | ------ | -------- | ----------------------------------- | ---------------------------------------------------------------------------- |
-| image   | String | true     |                                     | Container image to analyze                                                   |
-| config  | String | false    | `${{ github.workspace }}/.dive-ci`  | Path to [dive config file](https://github.com/wagoodman/dive#ci-integration) |
+| Name       | Type   | Required | Default                             | Description                                                                  |
+| ---------- | ------ | -------- | ----------------------------------- | ---------------------------------------------------------------------------- |
+| image      | String | true     |                                     | Container image to analyze                                                   |
+| config     | String | false    | `${{ github.workspace }}/.dive-ci`  | Path to [dive config file](https://github.com/wagoodman/dive#ci-integration) |
+| exit-zero  | String | false    | `false`                             | Whether to force exit with zero even when scan fails ("true"/"false")        |
 
 ### Outputs
 

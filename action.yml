@@ -9,6 +9,10 @@ inputs:
   image:
     description: "Image to analyze"
     required: true
+  exit-zero:
+    description: "Whether to exit with zero even when scan fails (still fails on error)"
+    required: false
+    default: "false"
   config:
     description: "Path to dive config file"
     required: false
